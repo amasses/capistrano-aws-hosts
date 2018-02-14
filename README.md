@@ -4,6 +4,8 @@ Provides an interface to retrieve host inventory from AWS for deployment to a dy
 
 This depends on EC2 hosts being tagged with the Role tag (e.g. Role=Dashboard)
 
+This plugin is for Capistrano 3 - sorry, no love for version 2...
+
 ## Installation
 
 Add this line to your application's Gemfile:
