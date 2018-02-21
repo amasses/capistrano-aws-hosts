@@ -22,7 +22,7 @@ module Capistrano
           {name: 'tag-value', values: ["*#{role_name}*"]}
         ])
 
-        instances = instances.first.reservations.first.instances
+        instances = instances.reservations.collect { |r| r.instances }.flatten
         result = instances.each_with_object([]) do |item, arr|
           arr << OpenStruct.new(
             private_ip: item.private_ip_address,
