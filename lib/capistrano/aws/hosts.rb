@@ -33,6 +33,8 @@ module Capistrano
 
         print "Target hosts: #{result.map(&:name).join(', ')}\n"
         result
+      rescue Aws::Errors::ServiceError => ex
+        raise "Error fetching AWS hosts (capistrano-aws-hosts): #{ex.message}"
       end
     end
   end
