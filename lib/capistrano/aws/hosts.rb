@@ -5,15 +5,17 @@ module Capistrano
     module Hosts
       # Fetches the hosts from AWS, filtering based on the tag 'Role' values (wildcarded)
       #
+      # @param [String] filter_override an override for the :aws_hosts_filter capistrano setting
+      #
       # @return [Array<Struct(private_ip, instance_id, name>] array of instance records
-      def fetch_aws_hosts
-        role_name = fetch(:aws_hosts_filter)
+      def fetch_aws_hosts(filter_override = nil)
+        role_name = filter_override || fetch(:aws_hosts_filter)
         profile = fetch(:aws_hosts_profile) || ENV['AWS_PROFILE']
         region = fetch(:aws_region) || ENV['AWS_DEFAULT_REGION']
-        
+
         raise 'Region is not specified - please set :aws_region or export AWS_DEFAULT_REGION as an environment variable' unless region.to_s != ''
         # raise "Profile is not specified - please set :aws_region or export AWS_DEFAULT_REGION as an environment variable" unless region.present?
-        
+
         client = ::Aws::EC2::Client.new(region: region, profile: profile)
 
         instances = client.describe_instances(filters: [
